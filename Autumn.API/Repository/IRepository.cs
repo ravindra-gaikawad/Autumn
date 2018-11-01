@@ -21,7 +21,7 @@ namespace Autumn.API.Repository
         IQueryable<T> FindAll<T>(Expression<Func<T, bool>> predicate)
             where T : BaseEntity;
 
-        void AddAsync<T>(T entity)
+        Task AddAsync<T>(T entity)
             where T : BaseEntity;
 
         void Delete<T>(T entity)

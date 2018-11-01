@@ -16,7 +16,7 @@ namespace Autumn.API.Repository
             this.dbContext = dbContext;
         }
 
-        async void IRepository.AddAsync<T>(T entity)
+        async Task IRepository.AddAsync<T>(T entity)
         {
             await this.dbContext.Set<T>().AddAsync(entity);
         }

@@ -17,7 +17,7 @@ namespace Autumn.API.Services
 
         IQueryable<Book> GetAll();
 
-        void AddAsync(Book entity);
+        Task AddAsync(Book entity);
 
         void Delete(Book entity);
 

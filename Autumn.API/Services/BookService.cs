@@ -17,9 +17,9 @@ namespace Autumn.API.Services
             this.repository = repository;
         }
 
-        async void IBookService.AddAsync(Book entity)
+        async Task IBookService.AddAsync(Book entity)
         {
-            this.repository.AddAsync(entity);
+            await this.repository.AddAsync(entity);
         }
 
         void IBookService.Delete(Book entity)

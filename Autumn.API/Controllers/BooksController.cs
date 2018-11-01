@@ -80,7 +80,7 @@ namespace Autumn.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            bookService.AddAsync(book);
+            await bookService.AddAsync(book);
 
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
