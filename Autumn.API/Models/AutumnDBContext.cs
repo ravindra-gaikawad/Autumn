@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Options;
-
-namespace Autumn.API.Models
+﻿namespace Autumn.API.Models
 {
+    using System;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.Extensions.Options;
+
     public partial class AutumnDBContext : DbContext
     {
         private readonly AppSettings appSettings;
@@ -13,13 +13,19 @@ namespace Autumn.API.Models
         {
             this.appSettings = settings.Value;
         }
-        
+
         public virtual DbSet<Book> Book { get; set; }
+
         public virtual DbSet<BookPage> BookPage { get; set; }
+
         public virtual DbSet<Diary> Diary { get; set; }
+
         public virtual DbSet<DiaryPage> DiaryPage { get; set; }
+
         public virtual DbSet<Episode> Episode { get; set; }
+
         public virtual DbSet<User> User { get; set; }
+
         public virtual DbSet<Wish> Wish { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

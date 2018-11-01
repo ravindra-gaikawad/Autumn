@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Autumn.API.Models;
-using Autumn.API.Repository;
-
-namespace Autumn.API.Services
+﻿namespace Autumn.API.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using Autumn.API.Models;
+    using Autumn.API.Repository;
+
     public class BookService : IBookService
     {
         private readonly IRepository repository;

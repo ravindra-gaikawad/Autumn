@@ -1,76 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Autumn.API.Models;
-
-namespace Autumn.API.Controllers
+﻿namespace Autumn.API.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Autumn.API.Models;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     [Route("api/[controller]")]
     [ApiController]
     public class DiaryPagesController : ControllerBase
     {
-        private readonly AutumnDBContext _context;
+        private readonly AutumnDBContext context;
 
         public DiaryPagesController(AutumnDBContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: api/DiaryPages
         [HttpGet]
         public IEnumerable<DiaryPage> GetDiaryPage()
         {
-            return _context.DiaryPage;
+            return this.context.DiaryPage;
         }
 
         // GET: api/DiaryPages/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDiaryPage([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            var diaryPage = await _context.DiaryPage.FindAsync(id);
+            var diaryPage = await this.context.DiaryPage.FindAsync(id);
 
             if (diaryPage == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return Ok(diaryPage);
+            return this.Ok(diaryPage);
         }
 
         // PUT: api/DiaryPages/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDiaryPage([FromRoute] long id, [FromBody] DiaryPage diaryPage)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
             if (id != diaryPage.Id)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            _context.Entry(diaryPage).State = EntityState.Modified;
+            this.context.Entry(diaryPage).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await this.context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiaryPageExists(id))
+                if (!this.DiaryPageExists(id))
                 {
-                    return NotFound();
+                    return this.NotFound();
                 }
                 else
                 {
@@ -78,48 +78,48 @@ namespace Autumn.API.Controllers
                 }
             }
 
-            return NoContent();
+            return this.NoContent();
         }
 
         // POST: api/DiaryPages
         [HttpPost]
         public async Task<IActionResult> PostDiaryPage([FromBody] DiaryPage diaryPage)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            _context.DiaryPage.Add(diaryPage);
-            await _context.SaveChangesAsync();
+            this.context.DiaryPage.Add(diaryPage);
+            await this.context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiaryPage", new { id = diaryPage.Id }, diaryPage);
+            return this.CreatedAtAction("GetDiaryPage", new { id = diaryPage.Id }, diaryPage);
         }
 
         // DELETE: api/DiaryPages/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiaryPage([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            var diaryPage = await _context.DiaryPage.FindAsync(id);
+            var diaryPage = await this.context.DiaryPage.FindAsync(id);
             if (diaryPage == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            _context.DiaryPage.Remove(diaryPage);
-            await _context.SaveChangesAsync();
+            this.context.DiaryPage.Remove(diaryPage);
+            await this.context.SaveChangesAsync();
 
-            return Ok(diaryPage);
+            return this.Ok(diaryPage);
         }
 
         private bool DiaryPageExists(long id)
         {
-            return _context.DiaryPage.Any(e => e.Id == id);
+            return this.context.DiaryPage.Any(e => e.Id == id);
         }
     }
 }

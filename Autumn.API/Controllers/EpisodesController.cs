@@ -1,76 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Autumn.API.Models;
-
-namespace Autumn.API.Controllers
+﻿namespace Autumn.API.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Autumn.API.Models;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     [Route("api/[controller]")]
     [ApiController]
     public class EpisodesController : ControllerBase
     {
-        private readonly AutumnDBContext _context;
+        private readonly AutumnDBContext context;
 
         public EpisodesController(AutumnDBContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: api/Episodes
         [HttpGet]
         public IEnumerable<Episode> GetEpisode()
         {
-            return _context.Episode;
+            return this.context.Episode;
         }
 
         // GET: api/Episodes/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEpisode([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            var episode = await _context.Episode.FindAsync(id);
+            var episode = await this.context.Episode.FindAsync(id);
 
             if (episode == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return Ok(episode);
+            return this.Ok(episode);
         }
 
         // PUT: api/Episodes/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEpisode([FromRoute] long id, [FromBody] Episode episode)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
             if (id != episode.Id)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            _context.Entry(episode).State = EntityState.Modified;
+            this.context.Entry(episode).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await this.context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EpisodeExists(id))
+                if (!this.EpisodeExists(id))
                 {
-                    return NotFound();
+                    return this.NotFound();
                 }
                 else
                 {
@@ -78,48 +78,48 @@ namespace Autumn.API.Controllers
                 }
             }
 
-            return NoContent();
+            return this.NoContent();
         }
 
         // POST: api/Episodes
         [HttpPost]
         public async Task<IActionResult> PostEpisode([FromBody] Episode episode)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            _context.Episode.Add(episode);
-            await _context.SaveChangesAsync();
+            this.context.Episode.Add(episode);
+            await this.context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEpisode", new { id = episode.Id }, episode);
+            return this.CreatedAtAction("GetEpisode", new { id = episode.Id }, episode);
         }
 
         // DELETE: api/Episodes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEpisode([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            var episode = await _context.Episode.FindAsync(id);
+            var episode = await this.context.Episode.FindAsync(id);
             if (episode == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            _context.Episode.Remove(episode);
-            await _context.SaveChangesAsync();
+            this.context.Episode.Remove(episode);
+            await this.context.SaveChangesAsync();
 
-            return Ok(episode);
+            return this.Ok(episode);
         }
 
         private bool EpisodeExists(long id)
         {
-            return _context.Episode.Any(e => e.Id == id);
+            return this.context.Episode.Any(e => e.Id == id);
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-namespace Autumn.API.Repository
+﻿namespace Autumn.API.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+
     public class AutumnDBContextRepository : IRepository
     {
         private readonly DbContext dbContext;

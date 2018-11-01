@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Autumn.API.Models;
-using Autumn.API.Services;
-
-namespace Autumn.API.Controllers
+﻿namespace Autumn.API.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Autumn.API.Models;
+    using Autumn.API.Services;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -32,82 +32,82 @@ namespace Autumn.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBook([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
             var book = await this.bookService.GetAsync(id);
 
             if (book == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return Ok(book);
+            return this.Ok(book);
         }
 
         // PUT: api/Books/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook([FromRoute] long id, [FromBody] Book book)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
             if (id != book.Id)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            if (!await BookExists(id))
+            if (!await this.BookExists(id))
             {
-                return NotFound();
+                return this.NotFound();
             }
 
             this.bookService.Edit(book);
 
-            return NoContent();
+            return this.NoContent();
         }
 
         // POST: api/Books
         [HttpPost]
         public async Task<IActionResult> PostBook([FromBody] Book book)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            await bookService.AddAsync(book);
+            await this.bookService.AddAsync(book);
 
-            return CreatedAtAction("GetBook", new { id = book.Id }, book);
+            return this.CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
         // DELETE: api/Books/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook([FromRoute] long id)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
-            var book = await bookService.GetAsync(id);
+            var book = await this.bookService.GetAsync(id);
             if (book == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            bookService.Delete(book);
+            this.bookService.Delete(book);
 
-            return Ok(book);
+            return this.Ok(book);
         }
 
         private async Task<bool> BookExists(long id)
         {
-            var book = await bookService.GetAsync(id);
+            var book = await this.bookService.GetAsync(id);
 
             if (book == null)
             {
