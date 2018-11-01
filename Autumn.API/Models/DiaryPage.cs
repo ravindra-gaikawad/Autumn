@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Autumn.API.Models
 {
-    public partial class DiaryPage
+    public partial class DiaryPage : BaseEntity
     {
-        public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public long DiaryId { get; set; }

@@ -1,20 +1,19 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Options;
 
 namespace Autumn.API.Models
 {
     public partial class AutumnDBContext : DbContext
     {
-        public AutumnDBContext()
-        {
-        }
+        private readonly AppSettings appSettings;
 
-        public AutumnDBContext(DbContextOptions<AutumnDBContext> options)
-            : base(options)
+        public AutumnDBContext(IOptions<AppSettings> settings)
         {
+            this.appSettings = settings.Value;
         }
-
+        
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<BookPage> BookPage { get; set; }
         public virtual DbSet<Diary> Diary { get; set; }
@@ -27,8 +26,7 @@ namespace Autumn.API.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=AutumnDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(this.appSettings.AutumnDBConnectionString);
             }
         }
 

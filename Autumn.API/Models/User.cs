@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Autumn.API.Models
 {
-    public partial class User
+    public partial class User : BaseEntity
     {
         public User()
         {
@@ -13,7 +13,6 @@ namespace Autumn.API.Models
             Wish = new HashSet<Wish>();
         }
 
-        public long Id { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string EmailId { get; set; }

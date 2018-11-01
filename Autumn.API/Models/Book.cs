@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace Autumn.API.Models
 {
-    public partial class Book
+    public partial class Book : BaseEntity
     {
         public Book()
         {
             BookPage = new HashSet<BookPage>();
         }
 
-        public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }

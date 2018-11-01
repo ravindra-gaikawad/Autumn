@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Autumn.API.Models
 {
-    public partial class Wish
+    public partial class Wish : BaseEntity
     {
-        public long Id { get; set; }
         public string Title { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }

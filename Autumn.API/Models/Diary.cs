@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace Autumn.API.Models
 {
-    public partial class Diary
+    public partial class Diary : BaseEntity
     {
         public Diary()
         {
             DiaryPage = new HashSet<DiaryPage>();
         }
 
-        public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
