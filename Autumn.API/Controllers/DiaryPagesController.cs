@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Services;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,18 @@
     [ApiController]
     public class DiaryPagesController : ControllerBase
     {
-        private readonly AutumnDBContext context;
+        private readonly IDiaryPageService diaryPageService;
 
-        public DiaryPagesController(AutumnDBContext context)
+        public DiaryPagesController(IDiaryPageService diaryPageService)
         {
-            this.context = context;
+            this.diaryPageService = diaryPageService;
         }
 
         // GET: api/DiaryPages
         [HttpGet]
         public IEnumerable<DiaryPage> GetDiaryPage()
         {
-            return this.context.DiaryPage;
+            return this.diaryPageService.GetAll();
         }
 
         // GET: api/DiaryPages/5
@@ -36,7 +37,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var diaryPage = await this.context.DiaryPage.FindAsync(id);
+            var diaryPage = await this.diaryPageService.GetAsync(id);
 
             if (diaryPage == null)
             {
@@ -60,23 +61,12 @@
                 return this.BadRequest();
             }
 
-            this.context.Entry(diaryPage).State = EntityState.Modified;
+            if (!await this.DiaryPageExists(id))
+            {
+                return this.NotFound();
+            }
 
-            try
-            {
-                await this.context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!this.DiaryPageExists(id))
-                {
-                    return this.NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            this.diaryPageService.Edit(diaryPage);
 
             return this.NoContent();
         }
@@ -90,8 +80,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            this.context.DiaryPage.Add(diaryPage);
-            await this.context.SaveChangesAsync();
+            await this.diaryPageService.AddAsync(diaryPage);
 
             return this.CreatedAtAction("GetDiaryPage", new { id = diaryPage.Id }, diaryPage);
         }
@@ -105,21 +94,27 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var diaryPage = await this.context.DiaryPage.FindAsync(id);
+            var diaryPage = await this.diaryPageService.GetAsync(id);
             if (diaryPage == null)
             {
                 return this.NotFound();
             }
 
-            this.context.DiaryPage.Remove(diaryPage);
-            await this.context.SaveChangesAsync();
+            this.diaryPageService.Delete(diaryPage);
 
             return this.Ok(diaryPage);
         }
 
-        private bool DiaryPageExists(long id)
+        private async Task<bool> DiaryPageExists(long id)
         {
-            return this.context.DiaryPage.Any(e => e.Id == id);
+            var diaryPage = await this.diaryPageService.GetAsync(id);
+
+            if (diaryPage == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Services;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,18 @@
     [ApiController]
     public class EpisodesController : ControllerBase
     {
-        private readonly AutumnDBContext context;
+        private readonly IEpisodeService episodeService;
 
-        public EpisodesController(AutumnDBContext context)
+        public EpisodesController(IEpisodeService episodeService)
         {
-            this.context = context;
+            this.episodeService = episodeService;
         }
 
         // GET: api/Episodes
         [HttpGet]
         public IEnumerable<Episode> GetEpisode()
         {
-            return this.context.Episode;
+            return this.episodeService.GetAll();
         }
 
         // GET: api/Episodes/5
@@ -36,7 +37,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var episode = await this.context.Episode.FindAsync(id);
+            var episode = await this.episodeService.GetAsync(id);
 
             if (episode == null)
             {
@@ -60,23 +61,12 @@
                 return this.BadRequest();
             }
 
-            this.context.Entry(episode).State = EntityState.Modified;
+            if (!await this.EpisodeExists(id))
+            {
+                return this.NotFound();
+            }
 
-            try
-            {
-                await this.context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!this.EpisodeExists(id))
-                {
-                    return this.NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            this.episodeService.Edit(episode);
 
             return this.NoContent();
         }
@@ -90,8 +80,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            this.context.Episode.Add(episode);
-            await this.context.SaveChangesAsync();
+            await this.episodeService.AddAsync(episode);
 
             return this.CreatedAtAction("GetEpisode", new { id = episode.Id }, episode);
         }
@@ -105,21 +94,27 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var episode = await this.context.Episode.FindAsync(id);
+            var episode = await this.episodeService.GetAsync(id);
             if (episode == null)
             {
                 return this.NotFound();
             }
 
-            this.context.Episode.Remove(episode);
-            await this.context.SaveChangesAsync();
+            this.episodeService.Delete(episode);
 
             return this.Ok(episode);
         }
 
-        private bool EpisodeExists(long id)
+        private async Task<bool> EpisodeExists(long id)
         {
-            return this.context.Episode.Any(e => e.Id == id);
+            var episode = await this.episodeService.GetAsync(id);
+
+            if (episode == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

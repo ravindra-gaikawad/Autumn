@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Services;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,18 @@
     [ApiController]
     public class BookPagesController : ControllerBase
     {
-        private readonly AutumnDBContext context;
+        private readonly IBookPageService bookPageService;
 
-        public BookPagesController(AutumnDBContext context)
+        public BookPagesController(IBookPageService bookPageService)
         {
-            this.context = context;
+            this.bookPageService = bookPageService;
         }
 
         // GET: api/BookPages
         [HttpGet]
         public IEnumerable<BookPage> GetBookPage()
         {
-            return this.context.BookPage;
+            return this.bookPageService.GetAll();
         }
 
         // GET: api/BookPages/5
@@ -36,7 +37,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var bookPage = await this.context.BookPage.FindAsync(id);
+            var bookPage = await this.bookPageService.GetAsync(id);
 
             if (bookPage == null)
             {
@@ -60,23 +61,12 @@
                 return this.BadRequest();
             }
 
-            this.context.Entry(bookPage).State = EntityState.Modified;
+            if (!await this.BookPageExists(id))
+            {
+                return this.NotFound();
+            }
 
-            try
-            {
-                await this.context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!this.BookPageExists(id))
-                {
-                    return this.NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            this.bookPageService.Edit(bookPage);
 
             return this.NoContent();
         }
@@ -90,8 +80,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            this.context.BookPage.Add(bookPage);
-            await this.context.SaveChangesAsync();
+            await this.bookPageService.AddAsync(bookPage);
 
             return this.CreatedAtAction("GetBookPage", new { id = bookPage.Id }, bookPage);
         }
@@ -105,21 +94,27 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var bookPage = await this.context.BookPage.FindAsync(id);
+            var bookPage = await this.bookPageService.GetAsync(id);
             if (bookPage == null)
             {
                 return this.NotFound();
             }
 
-            this.context.BookPage.Remove(bookPage);
-            await this.context.SaveChangesAsync();
+            this.bookPageService.Delete(bookPage);
 
             return this.Ok(bookPage);
         }
 
-        private bool BookPageExists(long id)
+        private async Task<bool> BookPageExists(long id)
         {
-            return this.context.BookPage.Any(e => e.Id == id);
+            var bookPage = await this.bookPageService.GetAsync(id);
+
+            if (bookPage == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
