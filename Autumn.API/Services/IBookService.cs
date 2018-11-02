@@ -11,7 +11,7 @@
     {
         Task<Book> GetAsync(long id);
 
-        Book Find(Expression<Func<Book, bool>> predicate);
+        Task<Book> FindAsync(Expression<Func<Book, bool>> predicate);
 
         IQueryable<Book> FindAll(Expression<Func<Book, bool>> predicate);
 

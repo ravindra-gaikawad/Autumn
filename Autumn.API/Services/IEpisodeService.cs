@@ -11,7 +11,7 @@
     {
         Task<Episode> GetAsync(long id);
 
-        Episode Find(Expression<Func<Episode, bool>> predicate);
+        Task<Episode> FindAsync(Expression<Func<Episode, bool>> predicate);
 
         IQueryable<Episode> FindAll(Expression<Func<Episode, bool>> predicate);
 

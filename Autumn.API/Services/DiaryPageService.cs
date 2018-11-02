@@ -17,7 +17,7 @@
             this.repository = repository;
         }
 
-       async Task IDiaryPageService.AddAsync(DiaryPage entity)
+        async Task IDiaryPageService.AddAsync(DiaryPage entity)
         {
             await this.repository.AddAsync(entity);
         }
@@ -32,9 +32,9 @@
             this.repository.Edit(entity);
         }
 
-        DiaryPage IDiaryPageService.Find(Expression<Func<DiaryPage, bool>> predicate)
+        async Task<DiaryPage> IDiaryPageService.FindAsync(Expression<Func<DiaryPage, bool>> predicate)
         {
-            return this.repository.Find(predicate);
+            return await this.repository.FindAsync(predicate);
         }
 
         IQueryable<DiaryPage> IDiaryPageService.FindAll(Expression<Func<DiaryPage, bool>> predicate)
@@ -42,14 +42,28 @@
             return this.repository.FindAll(predicate);
         }
 
-        IQueryable<DiaryPage> IDiaryPageService.GetAll()
+        async Task<IQueryable<DiaryPage>> IDiaryPageService.GetAllAsync(long diaryId)
         {
-            return this.repository.GetAll<DiaryPage>();
+            var diary = await this.repository.GetAsync<Diary>(diaryId);
+
+            if (diary == null)
+            {
+                return null;
+            }
+
+            return this.repository.FindAll<DiaryPage>(p => p.DiaryId == diaryId);
         }
 
-        async Task<DiaryPage> IDiaryPageService.GetAsync(long id)
+        async Task<DiaryPage> IDiaryPageService.GetAsync(long diaryId, long id)
         {
-            return await this.repository.GetAsync<DiaryPage>(id);
+            var diary = await this.repository.GetAsync<Diary>(diaryId);
+
+            if (diary == null)
+            {
+                return null;
+            }
+
+            return await this.repository.FindAsync<DiaryPage>(p => p.DiaryId == diaryId);
         }
     }
 }

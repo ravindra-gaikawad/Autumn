@@ -40,6 +40,30 @@
 					"response": []
 				},
 				{
+					"name": "api/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "api/users/:id",
 					"request": {
 						"method": "GET",
@@ -59,30 +83,6 @@
 								"api",
 								"users",
 								"34"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "api/users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://localhost:44321/api/users",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44321",
-							"path": [
-								"api",
-								"users"
 							]
 						}
 					},
@@ -566,6 +566,153 @@
 								"api",
 								"diaries",
 								"40"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:diaryId/pages",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Title\": \"Page 3\",\r\n  \"Description\": \"Page 3 Desc\",\r\n  \"DiaryId\": 39,\r\n  \"Sequence\": 1,\r\n  \"ForDate\": \"2018-11-02 06:45:13.2473941\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/39/pages",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"39",
+								"pages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:diaryId/pages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/39/pages",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"39",
+								"pages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:diaryId/pages/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/39/pages/44",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"39",
+								"pages",
+								"44"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:diaryId/pages/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Page 1\",\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit\",\n    \"diaryId\": 39,\n    \"sequence\": 1,\n    \"forDate\": \"2018-11-02T06:45:13.2473941\",\n    \"diary\": null,\n    \"id\": 44\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/39/pages/44",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"39",
+								"pages",
+								"44"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:diaryId/pages/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/39/pages/45",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"39",
+								"pages",
+								"45"
 							]
 						}
 					},

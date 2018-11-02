@@ -11,7 +11,7 @@
     {
         Task<Wish> GetAsync(long id);
 
-        Wish Find(Expression<Func<Wish, bool>> predicate);
+        Task<Wish> FindAsync(Expression<Func<Wish, bool>> predicate);
 
         IQueryable<Wish> FindAll(Expression<Func<Wish, bool>> predicate);
 

@@ -32,9 +32,9 @@
             this.repository.Edit(entity);
         }
 
-        Episode IEpisodeService.Find(Expression<Func<Episode, bool>> predicate)
+        async Task<Episode> IEpisodeService.FindAsync(Expression<Func<Episode, bool>> predicate)
         {
-            return this.repository.Find(predicate);
+            return await this.repository.FindAsync(predicate);
         }
 
         IQueryable<Episode> IEpisodeService.FindAll(Expression<Func<Episode, bool>> predicate)

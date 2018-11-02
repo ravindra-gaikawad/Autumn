@@ -10,34 +10,36 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
-    [Route("api/[controller]")]
+    [Route("api/diaries")]
     [ApiController]
     public class DiaryPagesController : ControllerBase
     {
         private readonly IDiaryPageService diaryPageService;
+        private readonly IDiaryService diaryService;
 
-        public DiaryPagesController(IDiaryPageService diaryPageService)
+        public DiaryPagesController(IDiaryPageService diaryPageService, IDiaryService diaryService)
         {
             this.diaryPageService = diaryPageService;
+            this.diaryService = diaryService;
         }
 
-        // GET: api/DiaryPages
-        [HttpGet]
-        public IEnumerable<DiaryPage> GetDiaryPage()
+        // GET: api/5/Pages/5
+        [HttpGet("{diaryId}/pages")]
+        public async Task<IEnumerable<DiaryPage>> GetDiaryPage([FromRoute] long diaryId)
         {
-            return this.diaryPageService.GetAll();
+            return await this.diaryPageService.GetAllAsync(diaryId);
         }
 
         // GET: api/DiaryPages/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetDiaryPage([FromRoute] long id)
+        [HttpGet("{diaryId}/pages/{id}")]
+        public async Task<IActionResult> GetDiaryPage([FromRoute] long diaryId, [FromRoute] long id)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var diaryPage = await this.diaryPageService.GetAsync(id);
+            var diaryPage = await this.diaryPageService.GetAsync(diaryId, id);
 
             if (diaryPage == null)
             {
@@ -48,8 +50,8 @@
         }
 
         // PUT: api/DiaryPages/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiaryPage([FromRoute] long id, [FromBody] DiaryPage diaryPage)
+        [HttpPut("{diaryId}/pages/{id}")]
+        public async Task<IActionResult> PutDiaryPage([FromRoute] long diaryId, [FromRoute] long id, [FromBody] DiaryPage diaryPage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -61,7 +63,12 @@
                 return this.BadRequest();
             }
 
-            if (!await this.DiaryPageExists(id))
+            if (diaryId != diaryPage.DiaryId)
+            {
+                return this.BadRequest();
+            }
+
+            if (!await this.DiaryPageExists(diaryId, id))
             {
                 return this.NotFound();
             }
@@ -72,12 +79,17 @@
         }
 
         // POST: api/DiaryPages
-        [HttpPost]
-        public async Task<IActionResult> PostDiaryPage([FromBody] DiaryPage diaryPage)
+        [HttpPost("{diaryId}/pages")]
+        public async Task<IActionResult> PostDiaryPage([FromRoute] long diaryId, [FromBody] DiaryPage diaryPage)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
+            }
+
+            if (!await this.DiaryExists(diaryId))
+            {
+                return this.NotFound();
             }
 
             await this.diaryPageService.AddAsync(diaryPage);
@@ -86,15 +98,20 @@
         }
 
         // DELETE: api/DiaryPages/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiaryPage([FromRoute] long id)
+        [HttpDelete("{diaryId}/pages/{id}")]
+        public async Task<IActionResult> DeleteDiaryPage([FromRoute] long diaryId, [FromRoute] long id)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var diaryPage = await this.diaryPageService.GetAsync(id);
+            if (!await this.DiaryExists(diaryId))
+            {
+                return this.NotFound();
+            }
+
+            var diaryPage = await this.diaryPageService.GetAsync(diaryId, id);
             if (diaryPage == null)
             {
                 return this.NotFound();
@@ -105,9 +122,21 @@
             return this.Ok(diaryPage);
         }
 
-        private async Task<bool> DiaryPageExists(long id)
+        private async Task<bool> DiaryExists(long id)
         {
-            var diaryPage = await this.diaryPageService.GetAsync(id);
+            var diary = await this.diaryService.GetAsync(id);
+
+            if (diary == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task<bool> DiaryPageExists(long diaryId, long id)
+        {
+            var diaryPage = await this.diaryPageService.GetAsync(diaryId, id);
 
             if (diaryPage == null)
             {

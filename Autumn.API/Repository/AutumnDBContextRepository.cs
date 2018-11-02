@@ -46,9 +46,9 @@
             return this.dbContext.Set<T>().AsNoTracking();
         }
 
-        T IRepository.Find<T>(Expression<Func<T, bool>> predicate)
+        async Task<T> IRepository.FindAsync<T>(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await this.dbContext.Set<T>().AsNoTracking().Where(predicate).FirstAsync();
         }
     }
 }

@@ -32,9 +32,9 @@
             this.repository.Edit(entity);
         }
 
-        Book IBookService.Find(Expression<Func<Book, bool>> predicate)
+        async Task<Book> IBookService.FindAsync(Expression<Func<Book, bool>> predicate)
         {
-            return this.repository.Find(predicate);
+            return await this.repository.FindAsync(predicate);
         }
 
         IQueryable<Book> IBookService.FindAll(Expression<Func<Book, bool>> predicate)

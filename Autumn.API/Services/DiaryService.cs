@@ -32,9 +32,9 @@
             this.repository.Edit(entity);
         }
 
-        Diary IDiaryService.Find(Expression<Func<Diary, bool>> predicate)
+        async Task<Diary> IDiaryService.FindAsync(Expression<Func<Diary, bool>> predicate)
         {
-            return this.repository.Find(predicate);
+            return await this.repository.FindAsync(predicate);
         }
 
         IQueryable<Diary> IDiaryService.FindAll(Expression<Func<Diary, bool>> predicate)

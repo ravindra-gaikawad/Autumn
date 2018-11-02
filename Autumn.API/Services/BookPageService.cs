@@ -32,9 +32,9 @@
             this.repository.Edit(entity);
         }
 
-        BookPage IBookPageService.Find(Expression<Func<BookPage, bool>> predicate)
+        async Task<BookPage> IBookPageService.FindAsync(Expression<Func<BookPage, bool>> predicate)
         {
-            return this.repository.Find(predicate);
+            return await this.repository.FindAsync(predicate);
         }
 
         IQueryable<BookPage> IBookPageService.FindAll(Expression<Func<BookPage, bool>> predicate)

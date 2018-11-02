@@ -9,13 +9,13 @@
 
     public interface IDiaryPageService
     {
-        Task<DiaryPage> GetAsync(long id);
+        Task<DiaryPage> GetAsync(long diaryId, long id);
 
-        DiaryPage Find(Expression<Func<DiaryPage, bool>> predicate);
+        Task<DiaryPage> FindAsync(Expression<Func<DiaryPage, bool>> predicate);
 
         IQueryable<DiaryPage> FindAll(Expression<Func<DiaryPage, bool>> predicate);
 
-        IQueryable<DiaryPage> GetAll();
+        Task<IQueryable<DiaryPage>> GetAllAsync(long diaryId);
 
         Task AddAsync(DiaryPage entity);
 

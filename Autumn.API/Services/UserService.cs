@@ -32,9 +32,9 @@
             this.repository.Edit(entity);
         }
 
-        User IUserService.Find(Expression<Func<User, bool>> predicate)
+        async Task<User> IUserService.FindAsync(Expression<Func<User, bool>> predicate)
         {
-            return this.repository.Find(predicate);
+            return await this.repository.FindAsync(predicate);
         }
 
         IQueryable<User> IUserService.FindAll(Expression<Func<User, bool>> predicate)

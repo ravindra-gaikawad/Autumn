@@ -11,7 +11,7 @@
     {
         Task<Diary> GetAsync(long id);
 
-        Diary Find(Expression<Func<Diary, bool>> predicate);
+        Task<Diary> FindAsync(Expression<Func<Diary, bool>> predicate);
 
         IQueryable<Diary> FindAll(Expression<Func<Diary, bool>> predicate);
 

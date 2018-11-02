@@ -32,9 +32,9 @@
             this.repository.Edit(entity);
         }
 
-        Wish IWishService.Find(Expression<Func<Wish, bool>> predicate)
+        async Task<Wish> IWishService.FindAsync(Expression<Func<Wish, bool>> predicate)
         {
-            return this.repository.Find(predicate);
+            return await this.repository.FindAsync(predicate);
         }
 
         IQueryable<Wish> IWishService.FindAll(Expression<Func<Wish, bool>> predicate)

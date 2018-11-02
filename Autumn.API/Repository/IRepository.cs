@@ -15,7 +15,7 @@
         IQueryable<T> GetAll<T>()
             where T : BaseEntity;
 
-        T Find<T>(Expression<Func<T, bool>> predicate)
+        Task<T> FindAsync<T>(Expression<Func<T, bool>> predicate)
             where T : BaseEntity;
 
         IQueryable<T> FindAll<T>(Expression<Func<T, bool>> predicate)

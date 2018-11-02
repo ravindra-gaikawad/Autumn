@@ -11,7 +11,7 @@
     {
         Task<User> GetAsync(long id);
 
-        User Find(Expression<Func<User, bool>> predicate);
+        Task<User> FindAsync(Expression<Func<User, bool>> predicate);
 
         IQueryable<User> FindAll(Expression<Func<User, bool>> predicate);
 
