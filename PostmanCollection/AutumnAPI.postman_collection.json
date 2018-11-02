@@ -433,11 +433,287 @@
 		},
 		{
 			"name": "Diaries",
-			"item": []
+			"item": [
+				{
+					"name": "api/diaries",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Title\": \"Lorem Ipsum\",\r\n  \"Description\": \"Lorem Ipsum is simply dummy text of the printing and typesetting industry.\",\r\n  \"CreatedOn\": \"2018-11-02 06:45:13.2473941\",\r\n  \"ModifiedOn\": null,\r\n  \"PageCount\": 0,\r\n  \"IsPublic\": false,\r\n  \"AuthorId\": 34\r\n}\r\n"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/39",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Lorem Ipsum\",\n    \"description\": \"Lorem Ipsum is simply dummy text of the printing and typesetting industry.\",\n    \"createdOn\": \"2018-11-02T06:45:13.2473941\",\n    \"modifiedOn\": \"2018-11-02T06:45:13.2473941\",\n    \"pageCount\": 0,\n    \"isPublic\": true,\n    \"authorId\": 34,\n    \"author\": null,\n    \"diaryPage\": [],\n    \"id\": 39\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/39",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/diaries/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/diaries/40",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"diaries",
+								"40"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Books",
-			"item": []
+			"item": [
+				{
+					"name": "api/books",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Title\": \"Lorem Ipsum\",\r\n  \"Description\": \"Lorem Ipsum is simply dummy text of the printing and typesetting industry.\",\r\n  \"CreatedOn\": \"2018-11-02 06:45:13.2473941\",\r\n  \"ModifiedOn\": null,\r\n  \"PageCount\": 0,\r\n  \"ChapterCount\": 0,\r\n  \"IsPublic\": false,\r\n  \"AuthorId\": 34\r\n}\r\n"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/41",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Lorem Ipsum\",\n    \"description\": \"Lorem Ipsum is simply dummy text of the printing and typesetting industry.\",\n    \"createdOn\": \"2018-11-02T06:45:13.2473941\",\n    \"modifiedOn\": \"2018-11-02T06:45:13.2473941\",\n    \"pageCount\": 0,\n    \"chapterCount\": 0,\n    \"isPublic\": true,\n    \"authorId\": 34,\n    \"author\": null,\n    \"bookPage\": [],\n    \"id\": 41\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/41",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/42",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"42"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
