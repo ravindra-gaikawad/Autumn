@@ -33,6 +33,7 @@
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(this.appSettings.AutumnDBConnectionString);
+                optionsBuilder.EnableSensitiveDataLogging();
             }
         }
 
