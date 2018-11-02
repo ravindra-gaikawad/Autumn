@@ -33,17 +33,17 @@
 
         IQueryable<T> IRepository.FindAll<T>(Expression<Func<T, bool>> predicate)
         {
-            return this.dbContext.Set<T>().AsQueryable().Where(predicate);
+            return this.dbContext.Set<T>().AsNoTracking().Where(predicate);
         }
 
         async Task<T> IRepository.GetAsync<T>(long id)
         {
-            return await this.dbContext.Set<T>().FindAsync(id);
+            return await this.dbContext.Set<T>().AsNoTracking().Where(e => e.Id == id).FirstAsync();
         }
 
         IQueryable<T> IRepository.GetAll<T>()
         {
-            return this.dbContext.Set<T>().AsQueryable();
+            return this.dbContext.Set<T>().AsNoTracking();
         }
 
         T IRepository.Find<T>(Expression<Func<T, bool>> predicate)
