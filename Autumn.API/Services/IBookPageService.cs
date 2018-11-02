@@ -9,13 +9,13 @@
 
     public interface IBookPageService
     {
-        Task<BookPage> GetAsync(long id);
+        Task<BookPage> GetAsync(long bookId, long id);
 
         Task<BookPage> FindAsync(Expression<Func<BookPage, bool>> predicate);
 
         IQueryable<BookPage> FindAll(Expression<Func<BookPage, bool>> predicate);
 
-        IQueryable<BookPage> GetAll();
+        Task<IQueryable<BookPage>> GetAllAsync(long bookId);
 
         Task AddAsync(BookPage entity);
 

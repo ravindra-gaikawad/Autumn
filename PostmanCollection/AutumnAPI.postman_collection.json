@@ -859,6 +859,153 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "api/books/:bookId/pages",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Title\": \"Lorem ipsum dolor sit amet\",\r\n  \"Description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\r\n  \"BookId\": 41,\r\n  \"Sequence\": 1\r\n}\r\n"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/41/pages",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"41",
+								"pages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books/:bookId/pages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/41/pages",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"41",
+								"pages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books/:bookId/pages/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/41/pages/47",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"41",
+								"pages",
+								"47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books/:bookId/pages/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Lorem ipsum\",\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.\",\n    \"bookId\": 41,\n    \"sequence\": 2,\n    \"book\": null,\n    \"id\": 47\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/41/pages/47",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"41",
+								"pages",
+								"47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/books/:bookId/pages/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44321/api/books/41/pages/49",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44321",
+							"path": [
+								"api",
+								"books",
+								"41",
+								"pages",
+								"49"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

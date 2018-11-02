@@ -42,13 +42,27 @@
             return this.repository.FindAll(predicate);
         }
 
-        IQueryable<BookPage> IBookPageService.GetAll()
+        async Task<IQueryable<BookPage>> IBookPageService.GetAllAsync(long bookId)
         {
-            return this.repository.GetAll<BookPage>();
+            var book = await this.repository.GetAsync<Book>(bookId);
+
+            if (book == null)
+            {
+                return null;
+            }
+
+            return this.repository.FindAll<BookPage>(p => p.BookId == bookId);
         }
 
-        async Task<BookPage> IBookPageService.GetAsync(long id)
+        async Task<BookPage> IBookPageService.GetAsync(long bookId, long id)
         {
+            var book = await this.repository.GetAsync<Book>(bookId);
+
+            if (book == null)
+            {
+                return null;
+            }
+
             return await this.repository.GetAsync<BookPage>(id);
         }
     }

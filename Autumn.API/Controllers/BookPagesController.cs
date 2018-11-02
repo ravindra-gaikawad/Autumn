@@ -10,34 +10,36 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
-    [Route("api/[controller]")]
+    [Route("api/books")]
     [ApiController]
     public class BookPagesController : ControllerBase
     {
         private readonly IBookPageService bookPageService;
+        private readonly IBookService bookService;
 
-        public BookPagesController(IBookPageService bookPageService)
+        public BookPagesController(IBookPageService bookPageService, IBookService bookService)
         {
             this.bookPageService = bookPageService;
+            this.bookService = bookService;
         }
 
         // GET: api/BookPages
-        [HttpGet]
-        public IEnumerable<BookPage> GetBookPage()
+        [HttpGet("{bookId}/pages")]
+        public async Task<IEnumerable<BookPage>> GetBookPage([FromRoute] long bookId)
         {
-            return this.bookPageService.GetAll();
+            return await this.bookPageService.GetAllAsync(bookId);
         }
 
         // GET: api/BookPages/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetBookPage([FromRoute] long id)
+        [HttpGet("{bookId}/pages/{id}")]
+        public async Task<IActionResult> GetBookPage([FromRoute] long bookId, [FromRoute] long id)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var bookPage = await this.bookPageService.GetAsync(id);
+            var bookPage = await this.bookPageService.GetAsync(bookId, id);
 
             if (bookPage == null)
             {
@@ -48,8 +50,8 @@
         }
 
         // PUT: api/BookPages/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBookPage([FromRoute] long id, [FromBody] BookPage bookPage)
+        [HttpPut("{bookId}/pages/{id}")]
+        public async Task<IActionResult> PutBookPage([FromRoute] long bookId, [FromRoute] long id, [FromBody] BookPage bookPage)
         {
             if (!this.ModelState.IsValid)
             {
@@ -61,7 +63,12 @@
                 return this.BadRequest();
             }
 
-            if (!await this.BookPageExists(id))
+            if (bookId != bookPage.BookId)
+            {
+                return this.BadRequest();
+            }
+
+            if (!await this.BookPageExists(bookId, id))
             {
                 return this.NotFound();
             }
@@ -72,12 +79,17 @@
         }
 
         // POST: api/BookPages
-        [HttpPost]
-        public async Task<IActionResult> PostBookPage([FromBody] BookPage bookPage)
+        [HttpPost("{bookId}/pages")]
+        public async Task<IActionResult> PostBookPage([FromRoute] long bookId, [FromBody] BookPage bookPage)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
+            }
+
+            if (!await this.BookExists(bookId))
+            {
+                return this.NotFound();
             }
 
             await this.bookPageService.AddAsync(bookPage);
@@ -86,15 +98,20 @@
         }
 
         // DELETE: api/BookPages/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBookPage([FromRoute] long id)
+        [HttpDelete("{bookId}/pages/{id}")]
+        public async Task<IActionResult> DeleteBookPage([FromRoute] long bookId, [FromRoute] long id)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var bookPage = await this.bookPageService.GetAsync(id);
+            if (!await this.BookExists(bookId))
+            {
+                return this.NotFound();
+            }
+
+            var bookPage = await this.bookPageService.GetAsync(bookId, id);
             if (bookPage == null)
             {
                 return this.NotFound();
@@ -105,9 +122,21 @@
             return this.Ok(bookPage);
         }
 
-        private async Task<bool> BookPageExists(long id)
+        private async Task<bool> BookExists(long id)
         {
-            var bookPage = await this.bookPageService.GetAsync(id);
+            var book = await this.bookService.GetAsync(id);
+
+            if (book == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task<bool> BookPageExists(long bookId, long id)
+        {
+            var bookPage = await this.bookPageService.GetAsync(bookId, id);
 
             if (bookPage == null)
             {
