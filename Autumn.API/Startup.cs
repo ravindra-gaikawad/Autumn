@@ -77,7 +77,13 @@
             builder.RegisterType<AutumnDBContextRepository>().As<IRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
+            builder.RegisterType<BookPageService>().As<IBookPageService>().InstancePerLifetimeScope();
             builder.RegisterType<BookService>().As<IBookService>().InstancePerLifetimeScope();
+            builder.RegisterType<DiaryPageService>().As<IDiaryPageService>().InstancePerLifetimeScope();
+            builder.RegisterType<DiaryService>().As<IDiaryService>().InstancePerLifetimeScope();
+            builder.RegisterType<EpisodeService>().As<IEpisodeService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<WishService>().As<IWishService>().InstancePerLifetimeScope();
         }
     }
 }
