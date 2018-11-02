@@ -6,42 +6,50 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Repository;
 
     public class UserService : IUserService
     {
-        Task IUserService.AddAsync(User entity)
+        private readonly IRepository repository;
+
+        public UserService(IRepository repository)
         {
-            throw new NotImplementedException();
+            this.repository = repository;
+        }
+
+        async Task IUserService.AddAsync(User entity)
+        {
+            await this.repository.AddAsync(entity);
         }
 
         void IUserService.Delete(User entity)
         {
-            throw new NotImplementedException();
+            this.repository.Delete(entity);
         }
 
         void IUserService.Edit(User entity)
         {
-            throw new NotImplementedException();
+            this.repository.Edit(entity);
         }
 
         User IUserService.Find(Expression<Func<User, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.Find(predicate);
         }
 
         IQueryable<User> IUserService.FindAll(Expression<Func<User, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.FindAll(predicate);
         }
 
         IQueryable<User> IUserService.GetAll()
         {
-            throw new NotImplementedException();
+            return this.repository.GetAll<User>();
         }
 
-        Task<User> IUserService.GetAsync(long id)
+        async Task<User> IUserService.GetAsync(long id)
         {
-            throw new NotImplementedException();
+            return await this.repository.GetAsync<User>(id);
         }
     }
 }

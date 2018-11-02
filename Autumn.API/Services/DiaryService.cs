@@ -6,42 +6,50 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Repository;
 
     public class DiaryService : IDiaryService
     {
-        Task IDiaryService.AddAsync(Diary entity)
+        private readonly IRepository repository;
+
+        public DiaryService(IRepository repository)
         {
-            throw new NotImplementedException();
+            this.repository = repository;
+        }
+
+        async Task IDiaryService.AddAsync(Diary entity)
+        {
+            await this.repository.AddAsync(entity);
         }
 
         void IDiaryService.Delete(Diary entity)
         {
-            throw new NotImplementedException();
+            this.repository.Delete(entity);
         }
 
         void IDiaryService.Edit(Diary entity)
         {
-            throw new NotImplementedException();
+            this.repository.Edit(entity);
         }
 
         Diary IDiaryService.Find(Expression<Func<Diary, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.Find(predicate);
         }
 
         IQueryable<Diary> IDiaryService.FindAll(Expression<Func<Diary, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.FindAll(predicate);
         }
 
         IQueryable<Diary> IDiaryService.GetAll()
         {
-            throw new NotImplementedException();
+            return this.repository.GetAll<Diary>();
         }
 
-        Task<Diary> IDiaryService.GetAsync(long id)
+        async Task<Diary> IDiaryService.GetAsync(long id)
         {
-            throw new NotImplementedException();
+            return await this.repository.GetAsync<Diary>(id);
         }
     }
 }

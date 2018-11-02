@@ -6,42 +6,50 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Repository;
 
     public class EpisodeService : IEpisodeService
     {
-        Task IEpisodeService.AddAsync(Episode entity)
+        private readonly IRepository repository;
+
+        public EpisodeService(IRepository repository)
         {
-            throw new NotImplementedException();
+            this.repository = repository;
+        }
+
+        async Task IEpisodeService.AddAsync(Episode entity)
+        {
+            await this.repository.AddAsync(entity);
         }
 
         void IEpisodeService.Delete(Episode entity)
         {
-            throw new NotImplementedException();
+            this.repository.Delete(entity);
         }
 
         void IEpisodeService.Edit(Episode entity)
         {
-            throw new NotImplementedException();
+            this.repository.Edit(entity);
         }
 
         Episode IEpisodeService.Find(Expression<Func<Episode, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.Find(predicate);
         }
 
         IQueryable<Episode> IEpisodeService.FindAll(Expression<Func<Episode, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.FindAll(predicate);
         }
 
         IQueryable<Episode> IEpisodeService.GetAll()
         {
-            throw new NotImplementedException();
+            return this.repository.GetAll<Episode>();
         }
 
-        Task<Episode> IEpisodeService.GetAsync(long id)
+        async Task<Episode> IEpisodeService.GetAsync(long id)
         {
-            throw new NotImplementedException();
+            return await this.repository.GetAsync<Episode>(id);
         }
     }
 }

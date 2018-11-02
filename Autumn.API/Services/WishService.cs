@@ -6,42 +6,50 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Repository;
 
     public class WishService : IWishService
     {
-        Task IWishService.AddAsync(Wish entity)
+        private readonly IRepository repository;
+
+        public WishService(IRepository repository)
         {
-            throw new NotImplementedException();
+            this.repository = repository;
+        }
+
+        async Task IWishService.AddAsync(Wish entity)
+        {
+            await this.repository.AddAsync(entity);
         }
 
         void IWishService.Delete(Wish entity)
         {
-            throw new NotImplementedException();
+            this.repository.Delete(entity);
         }
 
         void IWishService.Edit(Wish entity)
         {
-            throw new NotImplementedException();
+            this.repository.Edit(entity);
         }
 
         Wish IWishService.Find(Expression<Func<Wish, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.Find(predicate);
         }
 
         IQueryable<Wish> IWishService.FindAll(Expression<Func<Wish, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return this.repository.FindAll(predicate);
         }
 
         IQueryable<Wish> IWishService.GetAll()
         {
-            throw new NotImplementedException();
+            return this.repository.GetAll<Wish>();
         }
 
-        Task<Wish> IWishService.GetAsync(long id)
+        async Task<Wish> IWishService.GetAsync(long id)
         {
-            throw new NotImplementedException();
+            return await this.repository.GetAsync<Wish>(id);
         }
     }
 }
