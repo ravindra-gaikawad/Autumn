@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Services;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,18 @@
     [ApiController]
     public class WishesController : ControllerBase
     {
-        private readonly AutumnDBContext context;
+        private readonly IWishService wishService;
 
-        public WishesController(AutumnDBContext context)
+        public WishesController(IWishService wishService)
         {
-            this.context = context;
+            this.wishService = wishService;
         }
 
         // GET: api/Wishes
         [HttpGet]
         public IEnumerable<Wish> GetWish()
         {
-            return this.context.Wish;
+            return this.wishService.GetAll();
         }
 
         // GET: api/Wishes/5
@@ -36,7 +37,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var wish = await this.context.Wish.FindAsync(id);
+            var wish = await this.wishService.GetAsync(id);
 
             if (wish == null)
             {
@@ -60,23 +61,12 @@
                 return this.BadRequest();
             }
 
-            this.context.Entry(wish).State = EntityState.Modified;
+            if (!await this.WishExists(id))
+            {
+                return this.NotFound();
+            }
 
-            try
-            {
-                await this.context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!this.WishExists(id))
-                {
-                    return this.NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            this.wishService.Edit(wish);
 
             return this.NoContent();
         }
@@ -90,8 +80,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            this.context.Wish.Add(wish);
-            await this.context.SaveChangesAsync();
+            await this.wishService.AddAsync(wish);
 
             return this.CreatedAtAction("GetWish", new { id = wish.Id }, wish);
         }
@@ -105,21 +94,27 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var wish = await this.context.Wish.FindAsync(id);
+            var wish = await this.wishService.GetAsync(id);
             if (wish == null)
             {
                 return this.NotFound();
             }
 
-            this.context.Wish.Remove(wish);
-            await this.context.SaveChangesAsync();
+            this.wishService.Delete(wish);
 
             return this.Ok(wish);
         }
 
-        private bool WishExists(long id)
+        private async Task<bool> WishExists(long id)
         {
-            return this.context.Wish.Any(e => e.Id == id);
+            var wish = await this.wishService.GetAsync(id);
+
+            if (wish == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

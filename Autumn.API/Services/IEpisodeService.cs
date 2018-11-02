@@ -1,12 +1,12 @@
-﻿using Autumn.API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-namespace Autumn.API.Services
+﻿namespace Autumn.API.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using Autumn.API.Models;
+
     public interface IEpisodeService
     {
         Task<Episode> GetAsync(long id);

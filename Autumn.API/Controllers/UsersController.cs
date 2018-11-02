@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Autumn.API.Models;
+    using Autumn.API.Services;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,18 @@
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly AutumnDBContext context;
+        private readonly IUserService userService;
 
-        public UsersController(AutumnDBContext context)
+        public UsersController(IUserService userService)
         {
-            this.context = context;
+            this.userService = userService;
         }
 
         // GET: api/Users
         [HttpGet]
         public IEnumerable<User> GetUser()
         {
-            return this.context.User;
+            return this.userService.GetAll();
         }
 
         // GET: api/Users/5
@@ -36,7 +37,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var user = await this.context.User.FindAsync(id);
+            var user = await this.userService.GetAsync(id);
 
             if (user == null)
             {
@@ -60,23 +61,12 @@
                 return this.BadRequest();
             }
 
-            this.context.Entry(user).State = EntityState.Modified;
+            if (!await this.UserExists(id))
+            {
+                return this.NotFound();
+            }
 
-            try
-            {
-                await this.context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!this.UserExists(id))
-                {
-                    return this.NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            this.userService.Edit(user);
 
             return this.NoContent();
         }
@@ -90,8 +80,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            this.context.User.Add(user);
-            await this.context.SaveChangesAsync();
+            await this.userService.AddAsync(user);
 
             return this.CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
@@ -105,21 +94,27 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            var user = await this.context.User.FindAsync(id);
+            var user = await this.userService.GetAsync(id);
             if (user == null)
             {
                 return this.NotFound();
             }
 
-            this.context.User.Remove(user);
-            await this.context.SaveChangesAsync();
+            this.userService.Delete(user);
 
             return this.Ok(user);
         }
 
-        private bool UserExists(long id)
+        private async Task<bool> UserExists(long id)
         {
-            return this.context.User.Any(e => e.Id == id);
+            var user = await this.userService.GetAsync(id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
