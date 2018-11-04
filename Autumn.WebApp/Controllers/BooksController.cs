@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autumn.WebApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,18 @@ namespace Autumn.WebApp.Controllers
 {
     public class BooksController : Controller
     {
-        // GET: Books
-        public ActionResult Index()
+        private readonly IBookService bookService;
+
+        public BooksController(IBookService bookService)
         {
-            return View();
+            this.bookService = bookService;
+        }
+
+        // GET: Books
+        public async Task<ActionResult> Index()
+        {
+            var books = await bookService.GetAllAsync();
+            return View(books);
         }
 
         // GET: Books/Details/5
